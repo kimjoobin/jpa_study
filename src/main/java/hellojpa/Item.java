@@ -1,21 +1,17 @@
 package hellojpa;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class Product {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // join 전략
+public class Item {
 
+    /* JPA 기본전략 자체가 single table 방식 */
     @Id @GeneratedValue
     private Long id;
 
     private String name;
-
-//    @ManyToMany(mappedBy = "products")
-//    private List<Member> members = new ArrayList<>();
-    @OneToMany(mappedBy = "product")
-    private List<MemberProduct> memberProducts = new ArrayList<>();
+    private int price;
 
     public Long getId() {
         return id;
@@ -31,5 +27,13 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

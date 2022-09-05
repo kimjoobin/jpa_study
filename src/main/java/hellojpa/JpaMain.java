@@ -18,14 +18,27 @@ public class JpaMain {
 
         try {
             // 실무에서는 일대다 단방향보다는 다대일 양방향을 사용한다.
-            Member member = new Member();
+            /*Member member = new Member();
             member.setUsername("member1");
             em.persist(member);
 
             Team team = new Team();
             team.setName("teamA");
             team.getMembers().add(member);
-            em.persist(team);
+            em.persist(team);*/
+            Movie movie = new Movie();
+            movie.setDirector("aa");
+            movie.setActor("bb");
+            movie.setName("탑건 매버릭");
+            movie.setPrice(10000);
+
+            em.persist(movie);
+
+            em.flush();
+            em.clear();
+
+            Movie findMovie = em.find(Movie.class, movie.getId());  // item을 inner join해서 값을 가져옴
+            System.out.println("findMovie: " + findMovie);
 
             tx.commit();    // 트랜잭션 커밋 시점에서 DB에 insert 쿼리를 날림
         } catch (Exception e) {
