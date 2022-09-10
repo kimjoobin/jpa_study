@@ -3,10 +3,12 @@ package hellojpa;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // join 전략
-public class Item {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // join 전략
+@DiscriminatorColumn
+public abstract class Item {
 
-    /* JPA 기본전략 자체가 single table 방식 */
+    /* JPA 기본전략 자체가 single table 방식
+    * TABLE_PER_CLASS는 웬만하면 지양해야한다. -> 여러 테이블을 함께 조회할때 UNION SQL로 인해 성능 저하때문에 */
     @Id @GeneratedValue
     private Long id;
 

@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -26,19 +27,16 @@ public class JpaMain {
             team.setName("teamA");
             team.getMembers().add(member);
             em.persist(team);*/
-            Movie movie = new Movie();
-            movie.setDirector("aa");
-            movie.setActor("bb");
-            movie.setName("탑건 매버릭");
-            movie.setPrice(10000);
 
-            em.persist(movie);
+            Member member = new Member();
+            member.setUsername("user");
+            member.setCreatedBy("kim");
+            member.setCreatedDate(LocalDateTime.now());
+
+            em.persist(member);
 
             em.flush();
             em.clear();
-
-            Movie findMovie = em.find(Movie.class, movie.getId());  // item을 inner join해서 값을 가져옴
-            System.out.println("findMovie: " + findMovie);
 
             tx.commit();    // 트랜잭션 커밋 시점에서 DB에 insert 쿼리를 날림
         } catch (Exception e) {
