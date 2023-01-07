@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class JpaMain02 {
     public static void main(String[] args) {
@@ -17,16 +18,32 @@ public class JpaMain02 {
         tx.begin();
 
         try {
-            Member member1 = new Member();
-            member1.setName("member1");
-            em.persist(member1);
 
-            em.flush();
-            em.clear();
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
 
-            Member refMember = em.find(Member.class, member1.getId());
+            Member member = new Member();
+            member.setUsername("member1");
+            //member.setTeam(team);   // 연관관계의 주인에 값 설정
+            em.persist(member);
 
-            System.out.println("refMember: " + refMember.getClass());   // Proxy
+            //team.addMembers(member);
+
+           // team.getMembers().add(member);
+
+            /*em.flush();
+            em.clear();*/
+
+            Team findTeam = em.find(Team.class, team.getId());  // 1차캐시에 들어가있는 상태
+            List<Member> members = findTeam.getMembers();
+
+            System.out.println("=====================");
+            for (Member m : members) {
+                System.out.println("m: " + m.getUsername());
+            }
+            System.out.println("=====================");
+
             /* 영속성 컨텍스트를 사용할 수 없는 상태에서 프록시를 초기화하면 에러 발생 */
 //            em.detach(refMember);
 
